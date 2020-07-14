@@ -1,6 +1,7 @@
 // Get dependencies
 import express = require('express');
 import http = require('http');
+import path = require('path');
 import bodyParser = require('body-parser');
 import { logErrors, clientErrorHandler, errorHandler } from './api/middlewares/ErrorCatcher';
 
@@ -29,7 +30,7 @@ app.use(bodyParser.json({ type: 'application/json' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 /* Release version */
-// app.use(express.static(path.join(__dirname, '../../client/web-app/dist')));
+app.use(express.static(path.join(__dirname, '../../../client/build')));
 
 // Default engine
 app.set('view engine', 'html');
@@ -38,16 +39,15 @@ app.set('view engine', 'html');
 app.use('/api', api);
 
 // Catch all other routes and return the index file
-// app.get('*', (req, res) => {
-//   // res.sendFile(path.join(__dirname, '../../client/web-app/dist/index.html'));
-//   res.send('<h1>Server works</h1>');
-// });
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../../client/build/index.html'));
+});
 
 
 // Get port from environment and store in Express
-// const port = process.env.PORT || 4000;
-const port = 4000;
+const port = process.env.PORT || 4000;
 app.set('port', port);
+app.set('host', '0.0.0.0');
 
 // Create HTTP server instance
 const server = http.createServer(app);

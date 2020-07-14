@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 
 import MovieDbService from '../../api/MovieDbService';
-import Movie from '../../types/Movie';
 
 class MovieComponent extends React.Component {
   async componentDidMount() {

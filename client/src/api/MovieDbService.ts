@@ -1,6 +1,7 @@
 import Constants from './Constants';
-import axios, { AxiosResponse } from 'axios';
-import Movie from '../types/Movie';
+import { AxiosResponse } from 'axios';
+import apiClient from './apiClient';
+import Movie from '../../../types/Movie';
 
 interface MovieObject {
   movies: Movie[]
@@ -8,7 +9,7 @@ interface MovieObject {
 
 class MovieDbService {
   static getMovie() : Promise<AxiosResponse<MovieObject>> {
-    return axios.get(`http://localhost:4000/api/movies`)
+    return apiClient.get('/api/movies')
   }
 }
 
