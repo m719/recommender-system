@@ -1,0 +1,29 @@
+{
+  "workbench.iconTheme": "material-icon-theme",
+  "eslint.workingDirectories": [
+      "./client", "./server"
+  ],
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "eslint.validate": [
+      "javascript",
+      "javascriptreact",
+      {
+        "language": "react",
+        "autoFix": true
+      }
+  ],
+  "window.zoomLevel": 0,
+  "breadcrumbs.enabled": true,
+  "vetur.experimental.templateInterpolationService": false,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "javascript.implicitProjectConfig.checkJs": true,
+  "javascript.validate.enable": false
+  // "mochaExplorer.files": "server/test/**/*.js",
+  // "mochaExplorer.env": {
+  //   "NODE_ENV": "test"
+  // },
+  // "mochaExplorer.exit": true,
+  // "mochaExplorer.cwd": "server",
+  // "mochaExplorer.timeout": 5000
+}
