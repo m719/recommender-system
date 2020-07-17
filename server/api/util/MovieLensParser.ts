@@ -26,9 +26,8 @@ class MovieLensParser {
         [titles[2]]: separated[2],
       });
     }
-    console.log(res)
     return res;
   }
 }
 
-export { MovieLensParser };
+export = MovieLensParser;

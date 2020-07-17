@@ -17,4 +17,4 @@ class MovieController {
   }
 }
 
-export { MovieController };
+export = MovieController;

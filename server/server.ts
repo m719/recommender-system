@@ -3,7 +3,11 @@ import express = require('express');
 import http = require('http');
 import path = require('path');
 import bodyParser = require('body-parser');
+import mongoose = require('mongoose')
+import configs from './config/config';
 import { logErrors, clientErrorHandler, errorHandler } from './api/middlewares/ErrorCatcher';
+
+const config = configs[process.env.NODE_ENV];
 
 // Get our API routes
 import api from './api/routes';
@@ -12,6 +16,9 @@ import api from './api/routes';
 const app = express();
 
 app.set('trust proxy', 1);
+
+// Connect database (async result handle in the waitfordbconnection function)
+mongoose.connect(config.databaseUrl);
 
 // Handles CORS
 app.use((req, res, next) => {
@@ -45,9 +52,9 @@ app.get('*', (req, res) => {
 
 
 // Get port from environment and store in Express
-const port = process.env.PORT || 4000;
+const port = config.serverPort
 app.set('port', port);
-app.set('host', '0.0.0.0');
+app.set('host', config.serverHost);
 
 // Create HTTP server instance
 const server = http.createServer(app);
@@ -57,9 +64,23 @@ function startServer() {
   server.listen(port);
 }
 
+// Wait for database connection
+function waitForDbConnection() {
+  return new Promise((resolve, reject) => {
+    const db = mongoose.connection;
+    db.on('error', (err) => {
+      if (err) {
+        reject(`connection error: ${err}`)
+      }
+    });
+    db.once('open', () => resolve());
+  });
+}
+
 async function init() {
   try {
     startServer();
+    await waitForDbConnection();
   } catch (err) {
     console.log(err);
   }

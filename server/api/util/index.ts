@@ -1,3 +1,3 @@
-import { MovieLensParser } from './MovieLensParser';
+import MovieLensParser from './MovieLensParser';
 
 export { MovieLensParser };

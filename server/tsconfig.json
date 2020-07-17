@@ -12,7 +12,10 @@
   },
   "include": [
     "api",
-    "server.ts"
+    "server.ts",
+    "config",
+    "scripts",
+    "environment.d.ts"
   ],
   "references": [
     { "path": "../types" }
