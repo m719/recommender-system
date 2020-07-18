@@ -15,9 +15,7 @@
     "server.ts",
     "config",
     "scripts",
-    "environment.d.ts"
-  ],
-  "references": [
-    { "path": "../types" }
+    "environment.d.ts",
+    "../types"
   ]
 }

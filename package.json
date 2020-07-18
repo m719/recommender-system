@@ -18,5 +18,6 @@
   "bugs": {
     "url": "https://github.com/m719/recommender-system/issues"
   },
-  "homepage": "https://github.com/m719/recommender-system#readme"
+  "homepage": "https://github.com/m719/recommender-system#readme",
+  "dependencies": {}
 }

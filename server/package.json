@@ -21,7 +21,7 @@
     "dev": "export NODE_ENV=development && concurrently -k \"tsc -w\" \"nodemon dist/server/server.js\"",
     "build": "tsc",
     "start": "export NODE_ENV=production && node dist/server/server.js",
-    "fill-database-dev": "tsc && export NODE_ENV=development && node dist/server/scripts/fillDatabase.js"
+    "fill-database-dev": "tsc && export NODE_ENV=development && node --max-old-space-size=2048 dist/server/scripts/fillDatabase.js"
   },
   "author": "",
   "license": "ISC"

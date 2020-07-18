@@ -20,9 +20,7 @@
     "jsx": "react"
   },
   "include": [
-    "src"
-  ],
-  "references": [
-    { "path": "../types" }
+    "src",
+    "../types"
   ]
 }

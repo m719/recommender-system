@@ -7,6 +7,6 @@ const router = express.Router();
 router.get('/movies', MovieController.getMovies)
 
 // Get a random movie
-router.get('/movies/random', MovieController.getRandomMovie)
+router.get('/movies/random', MovieController.getRandomMovies)
 
 export default router;
