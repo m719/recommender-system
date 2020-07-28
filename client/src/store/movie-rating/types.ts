@@ -19,13 +19,13 @@ export interface MovieRatingState {
   movie: Movie
   movieLink: MovieLink
   ratedMovies: MovieRating[]
-  skippedMovies: string[]
+  skippedMovies: number[]
   movieImagePath: string
   readonly loading: boolean
   readonly errors?: string
 }
 
-interface MovieRating {
+export interface MovieRating {
   movieId: number
   rating: number
 }

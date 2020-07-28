@@ -39,7 +39,7 @@ const reducer: Reducer<MovieRatingState> = (state = initialState, action) => {
     case MovieRatingActionTypes.ADD_MOVIE_RATING: {
       return { 
         ...state,
-        ratedMovies: [...state.ratedMovies, action.payload]
+        ratedMovies: [...state.ratedMovies.filter(rm => rm.movieId != action.payload.movieId), action.payload]
       }
     }
     case MovieRatingActionTypes.ADD_SKIPED_MOVIE: {

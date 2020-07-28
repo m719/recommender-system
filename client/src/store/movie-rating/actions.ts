@@ -13,3 +13,5 @@ export const fetchTmdbDetailsSucess = (data: any) => action(MovieRatingActionTyp
 export const fetchTmdbDetailsError = (message: string) => action(MovieRatingActionTypes.FETCH_TMDB_DETAILS_ERROR, message)
 export const fetchTmdbImageSucess = (image: string) => action(MovieRatingActionTypes.FETCH_TMDB_IMAGE_SUCCESS, image)
 export const fetchTmdbImageError = (message: string) => action(MovieRatingActionTypes.FETCH_TMDB_IMAGE_ERROR, message)
+
+export const addMovieRating = (movieIdAndRating: { movieId: number, rating: number }) => action(MovieRatingActionTypes.ADD_MOVIE_RATING, movieIdAndRating)

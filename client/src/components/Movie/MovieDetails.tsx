@@ -10,6 +10,12 @@ export const MovieDetailsTitle  = styled.h2`
   font-weight: 600;
 `;
 
+export const MovieRatedNumber  = styled.span`
+  font-weight: 600;
+  font-size: 25px;
+`;
+
+
 export const MovieDetailsInfo  = styled.div`
 
 `;
