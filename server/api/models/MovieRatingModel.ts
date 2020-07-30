@@ -1,5 +1,10 @@
-import mongoose = require('mongoose');
+/**
+ * Maps Movielens ratings file
+ */
+
+import * as mongoose from 'mongoose';
 import MovieRating from '../../../types/MovieRating';
+const Schema = mongoose.Schema;
 
 interface MovieRatingDocument extends MovieRating, mongoose.Document {}
 

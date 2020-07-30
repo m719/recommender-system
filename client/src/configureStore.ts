@@ -12,6 +12,29 @@ import { History } from 'history'
 // Import the state interface and our combined reducers/sagas.
 import { ApplicationState, createRootReducer, rootSaga } from './store'
 
+const loadState = () => {
+  try {
+    const serializedState = localStorage.getItem('state')
+    if (serializedState === null) {
+      return undefined;
+    }
+    return JSON.parse(serializedState);
+  } catch (err) {
+    return undefined;
+  }
+}
+
+const persistedState: ApplicationState = loadState();
+
+const saveState = (state: ApplicationState) => {
+  try {
+    const serializedState = JSON.stringify(state);
+    localStorage.setItem('state', serializedState);
+  } catch (err) {
+    // Ignore
+  }
+}
+
 export default function configureStore(history: History, initialState: ApplicationState): Store<ApplicationState> {
   // create the composing function for our middlewares
   const composeEnhancers = composeWithDevTools({})
@@ -22,9 +45,14 @@ export default function configureStore(history: History, initialState: Applicati
   // we'll be passing from our entry point.
   const store = createStore(
     createRootReducer(history),
-    initialState,
-    composeEnhancers(applyMiddleware(routerMiddleware(history), sagaMiddleware))
+    persistedState,
+    composeEnhancers(applyMiddleware(routerMiddleware(history), sagaMiddleware)),
   )
+
+  // Listen to store events to update localstorage
+  store.subscribe(() => {
+    saveState(store.getState());
+  })
 
   // Don't forget to run the root saga, and return the store object.
   sagaMiddleware.run(rootSaga)

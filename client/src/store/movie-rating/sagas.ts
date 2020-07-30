@@ -1,19 +1,26 @@
-import { all, call, fork, put, select, takeEvery, take } from 'redux-saga/effects'
+import { all, call, fork, put, select, takeEvery, takeLatest, take } from 'redux-saga/effects'
 import { MovieRatingActionTypes } from './types'
 import { ApplicationState } from '../'
-import { fetchTmdbDetailsError, fetchRandomSuccess, fetchRandomError, fetchTmdbImageSucess, fetchTmdbImageError } from './actions'
+import { fetchRandomSuccess, fetchRandomError, fetchTmdbImageSucess, fetchTmdbImageError, submitMovieRatingsError } from './actions'
+import { setUserId } from '../users/action';
 import TmdbService from '../../api/TmdbService'
 import MovieService from '../../api/MovieService'
-import Movie from '../../../../types/Movie';
-import MovieLink from '../../../../types/MovieLink';
+import { MovieRating, MovieLink } from '../../../../types';
 import config from '../../constants/config';
 
-export const getMovie = (state: ApplicationState)  => state.movieRating.movie;
 export const getMovieLink = (state: ApplicationState)  => state.movieRating.movieLink;
+export const getRatedMovies = (state: ApplicationState)  => state.movieRating.ratedMovies;
+export const getSkippedMovies = (state: ApplicationState)  => state.movieRating.skippedMovies;
 
 function* handleFetchMovies() {
   try {
-    const moviesRes = yield call(MovieService.getRandomMovie);
+    let ratedMovies: MovieRating[] = yield select(getRatedMovies);
+    let skippedMovies: number[] = yield select(getSkippedMovies);
+
+    let ratedMovieIds = ratedMovies.map(rm => rm.movieId);
+    
+    // Ask to filter the union of already rated movies and skipped movies
+    const moviesRes = yield call(MovieService.getMostRatedMovie, [...ratedMovieIds, ...skippedMovies]);
 
     if (moviesRes.status >= 400 || !moviesRes.data) {
       yield put(fetchRandomError("Error while fetching movies."))
@@ -43,9 +50,29 @@ function* handleFetchTmdbDetails() {
   } catch (err) {
     console.log(err)
     if (err && err.response) {
-      yield put(fetchTmdbDetailsError(err.response))
+      yield put(fetchTmdbImageError(err.response))
     } else {
-      yield put(fetchTmdbDetailsError('An unknown error occured.'))
+      yield put(fetchTmdbImageError('An unknown error occured.'))
+    }
+  }
+}
+
+function* handleSubmitMovieRatings() {
+  try {
+    const ratedMovies: MovieRating[] = yield select(getRatedMovies);
+    const submitRes = yield call(MovieService.submitMovieRatings, ratedMovies);
+    
+    if (submitRes.status >= 400 || !submitRes.data) {
+      yield put(submitMovieRatingsError("Error while submitting movie ratings."))
+    } else {
+      yield put(setUserId(submitRes.data.userId));
+    }
+  } catch (err) {
+    console.log(err)
+    if (err && err.response) {
+      yield put(submitMovieRatingsError(err.response))
+    } else {
+      yield put(submitMovieRatingsError('An unknown error occured.'))
     }
   }
 }
@@ -60,9 +87,13 @@ function* watchFetchTmdbDetailsRequest() {
   yield takeEvery(MovieRatingActionTypes.FETCH_TMDB_DETAILS, handleFetchTmdbDetails)
 }
 
+function* watchSubmitMovieRatings() {
+  yield takeLatest(MovieRatingActionTypes.SUBMIT_MOVIE_RATINGS, handleSubmitMovieRatings)
+}
+
 // We can also use `fork()` here to split our saga into multiple watchers.
 function* movieRatingSaga() {
-  yield all([fork(watchFetchMovies), fork(watchFetchTmdbDetailsRequest)])
+  yield all([fork(watchFetchMovies), fork(watchFetchTmdbDetailsRequest), fork(watchSubmitMovieRatings)])
 }
 
 export default movieRatingSaga

@@ -39,13 +39,13 @@ const reducer: Reducer<MovieRatingState> = (state = initialState, action) => {
     case MovieRatingActionTypes.ADD_MOVIE_RATING: {
       return { 
         ...state,
-        ratedMovies: [...state.ratedMovies.filter(rm => rm.movieId != action.payload.movieId), action.payload]
+        ratedMovies: [...state.ratedMovies.filter(rm => rm.movieId !== action.payload.movieId), action.payload]
       }
     }
-    case MovieRatingActionTypes.ADD_SKIPED_MOVIE: {
+    case MovieRatingActionTypes.ADD_SKIPPED_MOVIE: {
       return { 
         ...state,
-        skipedMovies: [...state.skippedMovies, action.payload]
+        skippedMovies: [...state.skippedMovies.filter(id => id !== action.payload), action.payload]
       }
     }
     case MovieRatingActionTypes.FETCH_TMDB_DETAILS: {

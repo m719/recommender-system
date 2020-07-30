@@ -1,5 +1,10 @@
-import mongoose = require('mongoose');
+/**
+ * Maps Movielens movies file
+ */
+
+import * as mongoose from 'mongoose';
 import Movie from '../../../types/Movie';
+const Schema = mongoose.Schema;
 
 interface MovieDocument extends Movie, mongoose.Document {}
 

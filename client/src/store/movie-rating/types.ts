@@ -2,12 +2,11 @@ import Movie from '../../../../types/Movie';
 import MovieLink from '../../../../types/MovieLink';
 
 export enum MovieRatingActionTypes {
-  ADD_MOVIE_RATING = '@@/movie-rating/ADD_MOVIE_RATING',
-  ADD_SKIPED_MOVIE = '@@/movie-rating/ADD_SKIPED_MOVIE',
-  SUBMIT_MOVIE_RATINGS = '@@/movie-rating/SUBMIT_MOVIE_RATINGS',
+  ADD_MOVIE_RATING = '@@movie-rating/ADD_MOVIE_RATING',
+  ADD_SKIPPED_MOVIE = '@@movie-rating/ADD_SKIPPED_MOVIE',
+  SUBMIT_MOVIE_RATINGS = '@@movie-rating/SUBMIT_MOVIE_RATINGS',
+  SUBMIT_MOVIE_RATINGS_ERROR = '@@movie-rating/SUBMIT_MOVIE_RATINGS_ERROR',
   FETCH_TMDB_DETAILS = '@@movie-rating/FETCH_TMDB_DETAILS',
-  FETCH_TMDB_DETAILS_SUCCESS = '@@movie-rating/FETCH_TMDB_DETAILS_SUCCESS',
-  FETCH_TMDB_DETAILS_ERROR = '@@movie-rating/FETCH_TMDB_DETAILS_ERROR',
   FETCH_TMDB_IMAGE_SUCCESS = '@@movie-rating/FETCH_TMDB_IMAGE_SUCCESS',
   FETCH_TMDB_IMAGE_ERROR = '@@movie-rating/FETCH_TMDB_IMAGE_ERROR',
   FETCH_RANDOM_REQUEST = '@@movie-rating/FETCH_RANDOM_REQUEST',
@@ -20,7 +19,7 @@ export interface MovieRatingState {
   movieLink: MovieLink
   ratedMovies: MovieRating[]
   skippedMovies: number[]
-  movieImagePath: string
+  movieImagePath: string,
   readonly loading: boolean
   readonly errors?: string
 }

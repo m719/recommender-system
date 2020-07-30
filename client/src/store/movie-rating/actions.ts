@@ -9,9 +9,10 @@ export const fetchRandomSuccess = (movieAndLink: { movie: Movie, movieLink: Movi
 export const fetchRandomError = (message: string) => action(MovieRatingActionTypes.FETCH_RANDOM_ERROR, message)
 
 export const fetchTmdbDetails = () => action(MovieRatingActionTypes.FETCH_TMDB_DETAILS)
-export const fetchTmdbDetailsSucess = (data: any) => action(MovieRatingActionTypes.FETCH_TMDB_DETAILS_SUCCESS, data)
-export const fetchTmdbDetailsError = (message: string) => action(MovieRatingActionTypes.FETCH_TMDB_DETAILS_ERROR, message)
 export const fetchTmdbImageSucess = (image: string) => action(MovieRatingActionTypes.FETCH_TMDB_IMAGE_SUCCESS, image)
 export const fetchTmdbImageError = (message: string) => action(MovieRatingActionTypes.FETCH_TMDB_IMAGE_ERROR, message)
 
 export const addMovieRating = (movieIdAndRating: { movieId: number, rating: number }) => action(MovieRatingActionTypes.ADD_MOVIE_RATING, movieIdAndRating)
+export const skipMovieRating = (movieId: number) => action(MovieRatingActionTypes.ADD_SKIPPED_MOVIE, movieId)
+export const submitMovieRatings = () => action(MovieRatingActionTypes.SUBMIT_MOVIE_RATINGS)
+export const submitMovieRatingsError = (message: string) => action(MovieRatingActionTypes.SUBMIT_MOVIE_RATINGS_ERROR, message)

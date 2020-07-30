@@ -5,15 +5,22 @@ import { History } from 'history'
 
 import moviesSaga from './movies/sagas'
 import movieRatingSaga from './movie-rating/sagas'
+import movieRecommendationsSaga from './movie-recommendations/sagas'
 import { moviesReducer } from './movies/reducer'
 import { movieRatingReducer } from './movie-rating/reducer'
+import { movieRecommendationsReducer } from './movie-recommendations/reducer'
+import { usersReducer } from './users/reducer'
 import { MoviesState } from './movies/types'
 import { MovieRatingState } from './movie-rating/types'
+import { MovieRecommendationsState } from './movie-recommendations/types'
+import { UsersState } from './users/types'
 
 // The top-level state object
 export interface ApplicationState {
   movies: MoviesState
   movieRating: MovieRatingState
+  movieRecommendations: MovieRecommendationsState
+  users: UsersState
   router: RouterState
 }
 
@@ -24,6 +31,8 @@ export const createRootReducer = (history: History) =>
   combineReducers({
     movies: moviesReducer,
     movieRating: movieRatingReducer,
+    movieRecommendations: movieRecommendationsReducer,
+    users: usersReducer,
     router: connectRouter(history)
   })
 
@@ -31,5 +40,5 @@ export const createRootReducer = (history: History) =>
 // "generator function", which you can read about here:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*
 export function* rootSaga() {
-  yield all([fork(moviesSaga), fork(movieRatingSaga)])
+  yield all([fork(moviesSaga), fork(movieRatingSaga), fork(movieRecommendationsSaga)])
 }

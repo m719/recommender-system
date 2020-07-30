@@ -6,6 +6,7 @@ import { Main } from '../src/components/Generic/Main'
 import Header from './components/Layout/Header'
 import IndexPage from './pages/IndexPage'
 import MovieRatingPage from './pages/MovieRatingPage'
+import MovieRecommendationPage from './pages/MovieRecommendationPage'
 
 const Routes: React.SFC = () => (
   <Root>
@@ -15,6 +16,7 @@ const Routes: React.SFC = () => (
         <Switch>
           <Route exact path="/" component={IndexPage}/>
           <Route path="/movie-rating" component={MovieRatingPage} />
+          <Route path="/movie-recommendations" component={MovieRecommendationPage} />
           <Route component={() => <div>Not Found</div>} />
         </Switch>
       </Main>

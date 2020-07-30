@@ -1,5 +1,10 @@
-import mongoose = require('mongoose');
+/**
+ * Maps Movielens links file
+ */
+
+import * as mongoose from 'mongoose';
 import MovieLink from '../../../types/MovieLink';
+const Schema = mongoose.Schema;
 
 interface MovieLinkDocument extends MovieLink, mongoose.Document {}
 

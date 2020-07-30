@@ -5,10 +5,11 @@ import Container from '../components/Generic/Container';
 import Movie from '../../../types/Movie';
 import MovieLink from '../../../types/MovieLink';
 import { ApplicationState } from '../store'
-import { fetchTmdbDetails, fetchRandomRequest, addMovieRating } from '../store/movie-rating/actions'
-import { MovieDetailsTitle, MovieDetailsRow, MovieDetailsContainer, MovieRatedNumber } from '../components/Movie/MovieDetails';
-import { Button, Rate} from 'antd';
+import { fetchTmdbDetails, fetchRandomRequest, addMovieRating, skipMovieRating, submitMovieRatings } from '../store/movie-rating/actions'
+import { MovieDetailsTitle, MovieDetailsRow, MovieDetailsContainer } from '../components/Movie/MovieDetails';
+import { Button, Rate, Progress } from 'antd';
 import { ImageWrapper, Image } from '../components/Generic/Image';
+import { History } from 'history'
 
 interface PropsFromState {
   movie: Movie
@@ -17,13 +18,16 @@ interface PropsFromState {
   errors?: string
   ratedMovies: any[]
   skippedMovies: number[]
-  movieImagePath: string
+  movieImagePath: string,
+  history: History
 }
 
 interface PropsFromDispatch {
   fetchTmdbDetails: typeof fetchTmdbDetails
   fetchRandomRequest: typeof fetchRandomRequest
   addMovieRating: typeof addMovieRating
+  skipMovieRating: typeof skipMovieRating
+  submitMovieRatings: typeof submitMovieRatings
 }
 
 interface State {
@@ -53,24 +57,48 @@ class MovieRatingPage extends React.Component<AllProps, State> {
     fetchTmdbDetails();
   }
 
+  handleSkipMovie = () => {
+    const { movie, skipMovieRating } = this.props;
+    skipMovieRating(movie.movieId);
+    this.fetchRandomMovieWithAssociatedImage();
+  }
+
   handleRateChange = (value: number) => {
-    const { addMovieRating, movie } = this.props;
+    const { addMovieRating, movie, ratedMovies } = this.props;
     const movieId = movie.movieId;
     addMovieRating({ movieId, rating: value })
-    this.fetchRandomMovieWithAssociatedImage();
-    this.setState({
-      rating: 0
-    })
+
+    const NEEDED_MOVIE_RATINGS = 9;
+    if (ratedMovies.length === NEEDED_MOVIE_RATINGS) {
+      this.handleSubmitMovieRatings();
+    } else {
+      this.fetchRandomMovieWithAssociatedImage();
+      this.setState({
+        rating: 0
+      })
+    }
+  }
+
+  handleSubmitMovieRatings() {
+    const { submitMovieRatings } = this.props;
+    submitMovieRatings()
+    this.props.history.push('/movie-recommendations')
   }
 
   render() {
     const { movie, movieImagePath, ratedMovies } = this.props;
-    const self = this;
     return (
       <Container centered>
         <MovieDetailsContainer height={480}>
           <MovieDetailsRow>
-            <MovieRatedNumber>{ratedMovies.length} / 10</MovieRatedNumber>
+            <Progress
+              strokeColor={{
+                from: '#108ee9',
+                to: '#87d068',
+              }}
+              percent={(ratedMovies.length / 10)* 100}
+              status="active"
+            />
           </MovieDetailsRow>
           <MovieDetailsRow>
             <MovieDetailsTitle>
@@ -88,7 +116,7 @@ class MovieRatingPage extends React.Component<AllProps, State> {
             <Rate style={{background: '#b9d9eb'}} allowClear defaultValue={0} onChange={this.handleRateChange} value={this.state.rating} />
           </MovieDetailsRow>
           <MovieDetailsRow>
-            <Button type="link" onClick={() => this.fetchRandomMovieWithAssociatedImage()}>Have not seen ? Skip !</Button>
+            <Button type="link" onClick={this.handleSkipMovie}>Have not seen ? Skip !</Button>
           </MovieDetailsRow>
         </MovieDetailsContainer>
       </Container>
@@ -114,7 +142,9 @@ const mapStateToProps = ({ movieRating }: ApplicationState) => ({
 const mapDispatchToProps = {
   fetchRandomRequest,
   fetchTmdbDetails,
-  addMovieRating
+  addMovieRating,
+  skipMovieRating,
+  submitMovieRatings
 };
 
 // Now let's connect our component!
