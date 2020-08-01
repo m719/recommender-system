@@ -17,7 +17,6 @@ const Routes: React.SFC = () => (
           <Route exact path="/" component={IndexPage}/>
           <Route path="/movie-rating" component={MovieRatingPage} />
           <Route path="/movie-recommendations" component={MovieRecommendationPage} />
-          <Route component={() => <div>Not Found</div>} />
         </Switch>
       </Main>
     </BrowserRouter>
