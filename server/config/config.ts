@@ -10,7 +10,7 @@ interface Configurations {
 }
 
 const production: ConfigDefinition = {
-  serverHost: '0.0.0.0',
+  serverHost: 'https://my-recsys.herokuapp.com',
   serverPort: process.env.PORT,
   databaseUrl: 'mongodb+srv://recsys:tricky1@recsys.hxff5.mongodb.net/recsysdb1?retryWrites=true&w=majority'
 };
