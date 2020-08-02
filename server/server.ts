@@ -22,10 +22,11 @@ mongoose.connect(config.databaseUrl);
 
 // Handles CORS
 app.use((req, res, next) => {
-  const allowedOrigins = ['http://localhost:3000', 'http://my-recsys.herokuapp.com'];
-  if (req.headers.origin in allowedOrigins) {
-    res.header('Access-Control-Allow-Origin', req.headers.origin);
-  }
+  // const allowedOrigins = ['http://localhost:3000', 'http://my-recsys.herokuapp.com'];
+  // if (req.headers.origin in allowedOrigins) {
+  //   res.header('Access-Control-Allow-Origin', req.headers.origin);
+  // }
+  res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
